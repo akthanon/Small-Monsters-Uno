@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Small-Monsters-Uno", "Small-Monsters-Uno.csproj", "{C6BDC789-C69C-4B07-8756-396B40A0CE08}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6BDC789-C69C-4B07-8756-396B40A0CE08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6BDC789-C69C-4B07-8756-396B40A0CE08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6BDC789-C69C-4B07-8756-396B40A0CE08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6BDC789-C69C-4B07-8756-396B40A0CE08}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {444B6C19-82FF-4E35-86CF-5C756B4633C3}
+	EndGlobalSection
+EndGlobal
