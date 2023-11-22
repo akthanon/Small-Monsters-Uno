@@ -33,7 +33,9 @@ internal class Program
 
         // Inicializar vida personaje principal
 
-        int vida = 100;
+        int vida = 50;
+        int ataque = 10;
+        int defensa = 20;
 
         Console.ReadLine();
 
@@ -52,7 +54,7 @@ internal class Program
 
                 if (playerX==instancia.coordenadaX && playerY == instancia.coordenadaY)
                 {
-                    Combate(instancia, rand, vida);
+                    Combate(instancia, rand, vida, ataque, defensa);
                     combate = true;
                 }
             }
@@ -87,16 +89,18 @@ internal class Program
 
     }
 
-    public static void Combate(SmallMonster enemigo, Random rand, int vida)
+    public static void Combate(SmallMonster enemigo, Random rand, int vida, int ataque, int defensa)
     {
         Console.Clear();
         Console.SetCursorPosition(0, 0);
         Console.WriteLine($"Inicia el Combate con {enemigo.nombre}");
         int vidaTemp = enemigo.vida;
+        int mainVida = vida;
         bool select = false;
+        int dano;
 
         int opcion = 0;
-        while ((vidaTemp > 0 && vida > 0 && !(opcion == 3 && select == true)))
+        while ((vidaTemp > 0 && mainVida > 0 && !(opcion == 3 && select == true)))
         {
             Console.Clear();
             select = false;
@@ -129,6 +133,17 @@ internal class Program
                     Console.WriteLine(">Escapar");
                     break;
             }
+            string face = "  n n   \n\t\t\t<(^W^)>\n\t\t\t  V V   ";
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\n\n\n\t\t\t{face}");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"(T_T)");
+            Console.WriteLine("  O");
+            Console.WriteLine("**O**");
+            Console.WriteLine("* O *");
+            Console.WriteLine("  O  ");
+            Console.WriteLine(" O O ");
+            Console.WriteLine(" O O ");
 
             ConsoleKeyInfo keyInfo = Console.ReadKey();
             // Mover el jugador según la tecla presionada
@@ -147,7 +162,58 @@ internal class Program
                     break;
             }
 
-            
+            Console.WriteLine("\n");
+            if (opcion == 0 && select == true)
+            {
+                Console.WriteLine($"Haz Atacado al enemigo {enemigo.nombre}");
+                Console.ReadLine();
+                dano = rand.Next(ataque) * (1-enemigo.defensa/100);
+                vidaTemp -= dano;
+
+                if (vidaTemp < 0){ vidaTemp = 0; }
+
+                Console.WriteLine($"Le quitas {dano} de vida al enemigo {enemigo.nombre}, le quedan {vidaTemp} puntos de vida");
+                Console.ReadLine();
+
+                if (vidaTemp > 0) {dano = enemigo.AtaqueGenerico(defensa); mainVida = mainVida - dano; }
+                if (mainVida < 0) { mainVida = 0; }
+                Console.WriteLine($"Te quedan {mainVida} puntos de vida");
+                Console.ReadLine();
+            }
+            else if (opcion == 1 && select == true)
+            {
+                Console.WriteLine($"Te estás preparando para defenderte del ataque enemigo {enemigo.nombre}");
+                Console.ReadLine();
+                if (vidaTemp > 0) { dano = enemigo.AtaqueDefensa(defensa); mainVida = mainVida - dano; }
+
+                if (mainVida < 0) { mainVida = 0; }
+                Console.WriteLine($"Te haz defendido del ataque, ahora te quedan {mainVida} puntos de vida");
+
+                Console.ReadLine();
+            }
+            else if (opcion == 2 && select == true)
+            {
+                Console.WriteLine($"Te estás preparando para esquivar el ataque de {enemigo.nombre}");
+                Console.ReadLine();
+                if (rand.Next(6)==1)
+                {
+                    Console.WriteLine("Te han acertado el ataque");
+                    Console.ReadLine();
+                    if (vidaTemp > 0) { dano = enemigo.AtaqueGenerico(0); mainVida = mainVida - dano; }
+                    if (mainVida < 0) { mainVida = 0; }
+                    Console.WriteLine($"Te quedan {mainVida} puntos de vida");
+                    Console.ReadLine();
+                }
+                else
+                {
+                    Console.WriteLine("El enemigo ha fallado el ataque, aprovechas para recuperar 1 punto de vida");
+                    mainVida++;
+                    Console.ReadLine();
+                    if (mainVida < 0) { mainVida = 0; }
+                    Console.WriteLine($"Ahora tienes {mainVida} puntos de vida");
+                    Console.ReadLine();
+                }
+            }
         }
         Console.Clear();
         Console.WriteLine("COMBATE FINALIZADO\npresione ENTER para continuar");
@@ -170,6 +236,8 @@ class SmallMonster
 
     private static List<SmallMonster> listaDeSM = new List<SmallMonster>();
 
+    Random rand = new Random();
+
     //Constructor
     public SmallMonster(string Nombre, int CoordenadaX, int CoordenadaY, int Ataque, int Defensa, int Vida)
     {
@@ -182,14 +250,31 @@ class SmallMonster
         listaDeSM.Add(this);
     }
 
-    public void AtaqueGenerico()
+    public int AtaqueGenerico( int defensaEnemigo)
     {
-        Console.WriteLine($"El enemigo {nombre} te ha atacado con {ataque} puntos de daño");
+        int dano = (int)(rand.Next(ataque) * (1 - Convert.ToDouble((defensaEnemigo) / 100.0)));
+        Console.WriteLine($"El enemigo {nombre} te ha atacado con {dano} puntos de daño");
         Console.ReadLine();
+        return dano;
     }
 
-    // Método estático para obtener la lista de todos los Pokemons
-    public static List<SmallMonster> ObtenerTodosLosSM()
+    public int AtaqueDefensa(int defensaEnemigo)
+    {
+        int dano = (int)(rand.Next(ataque) * (1 - Convert.ToDouble(rand.Next(0, 200) / 100.0)));
+        Console.WriteLine($"El enemigo {nombre} te ha atacado con {dano} puntos de daño");
+        
+        if (dano < 0)
+        {
+            Console.ReadLine();
+            Console.Write("Le robas la energía a tu enemigo y te recuperas vida\n");
+        }
+        Console.ReadLine();
+        return dano;
+
+    }
+
+        // Método estático para obtener la lista de todos los Pokemons
+        public static List<SmallMonster> ObtenerTodosLosSM()
     {
         return listaDeSM;
     }
