@@ -4,7 +4,7 @@ using System.Drawing;
 
 internal class Program
 {
-
+    // Método principal que inicia el juego
     public static void Main(string[] args)
     {
         Console.CursorVisible = false;
@@ -20,6 +20,7 @@ internal class Program
         //Funcion para crear random
         Random rand = new Random();
 
+        // Mensaje de bienvenida y creación de instancias de SmallMonster
         Console.WriteLine("BIENVENIDO A SMALL MONSTERS \npresione ENTER para continuar...");
         SmallMonster smallMongo = new("Mongo", rand.Next(Console.WindowWidth), rand.Next(Console.WindowHeight), 15, 20, 25);
         SmallMonster smallNono = new("Nono", rand.Next(Console.WindowWidth), rand.Next(Console.WindowHeight), 15, 20, 25);
@@ -32,7 +33,6 @@ internal class Program
         List<SmallMonster> listaDeInstancias = SmallMonster.ObtenerTodosLosSM();
 
         // Inicializar vida personaje principal
-
         int vida = 50;
         int ataque = 10;
         int defensa = 20;
@@ -45,19 +45,21 @@ internal class Program
             Console.SetCursorPosition(playerX, playerY);
             Console.Write(texto);
 
-            // Agregar instancias a la listaDeInstancias
-
+            // Mostrar instancias de SmallMonster en la consola
             foreach (SmallMonster instancia in listaDeInstancias)
             {
                 Console.SetCursorPosition(instancia.coordenadaX, instancia.coordenadaY);
                 Console.Write("X");
 
-                if (playerX==instancia.coordenadaX && playerY == instancia.coordenadaY)
+                // Iniciar combate si el jugador se encuentra en la misma posición que una instancia de SmallMonster
+                if (playerX == instancia.coordenadaX && playerY == instancia.coordenadaY)
                 {
                     Combate(instancia, rand, vida, ataque, defensa);
                     combate = true;
                 }
             }
+
+            // Mover al jugador si no está en combate
             if (combate == false)
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
@@ -79,16 +81,13 @@ internal class Program
                 }
             }
             combate = false;
-
-
         }
 
         Console.WriteLine("JUEGO FINALIZADO");
         Console.ReadKey();
-
-
     }
 
+    // Método que controla el combate
     public static void Combate(SmallMonster enemigo, Random rand, int vida, int ataque, int defensa)
     {
         Console.Clear();
@@ -100,8 +99,9 @@ internal class Program
         int dano;
 
         int opcion = 0;
-        while ((vidaTemp > 0 && mainVida > 0 && !(opcion == 3 && select == true)))
+        while (vidaTemp > 0 && mainVida > 0 && !(opcion == 3 && select == true))
         {
+            // Mostrar opciones de combate y la representación gráfica del jugador
             Console.Clear();
             select = false;
             Console.WriteLine("Selecciona Una Opción: ");
@@ -133,6 +133,8 @@ internal class Program
                     Console.WriteLine(">Escapar");
                     break;
             }
+
+            // Mostrar la representación gráfica del jugador durante el combate
             string face = "  n n   \n\t\t\t<(^W^)>\n\t\t\t  V V   ";
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\n\n\n\t\t\t{face}");
@@ -145,8 +147,9 @@ internal class Program
             Console.WriteLine(" O O ");
             Console.WriteLine(" O O ");
 
+            // Leer la tecla presionada por el usuario
             ConsoleKeyInfo keyInfo = Console.ReadKey();
-            // Mover el jugador según la tecla presionada
+            // Mover el cursor según la tecla presionada
             switch (keyInfo.Key)
             {
                 case ConsoleKey.UpArrow:
@@ -165,23 +168,25 @@ internal class Program
             Console.WriteLine("\n");
             if (opcion == 0 && select == true)
             {
+                // Realizar un ataque
                 Console.WriteLine($"Haz Atacado al enemigo {enemigo.nombre}");
                 Console.ReadLine();
-                dano = rand.Next(ataque) * (1-enemigo.defensa/100);
+                dano = rand.Next(ataque) * (1 - enemigo.defensa / 100);
                 vidaTemp -= dano;
 
-                if (vidaTemp < 0){ vidaTemp = 0; }
+                if (vidaTemp < 0) { vidaTemp = 0; }
 
                 Console.WriteLine($"Le quitas {dano} de vida al enemigo {enemigo.nombre}, le quedan {vidaTemp} puntos de vida");
                 Console.ReadLine();
 
-                if (vidaTemp > 0) {dano = enemigo.AtaqueGenerico(defensa); mainVida = mainVida - dano; }
+                if (vidaTemp > 0) { dano = enemigo.AtaqueGenerico(defensa); mainVida = mainVida - dano; }
                 if (mainVida < 0) { mainVida = 0; }
                 Console.WriteLine($"Te quedan {mainVida} puntos de vida");
                 Console.ReadLine();
             }
             else if (opcion == 1 && select == true)
             {
+                // Realizar una defensa
                 Console.WriteLine($"Te estás preparando para defenderte del ataque enemigo {enemigo.nombre}");
                 Console.ReadLine();
                 if (vidaTemp > 0) { dano = enemigo.AtaqueDefensa(defensa); mainVida = mainVida - dano; }
@@ -193,9 +198,10 @@ internal class Program
             }
             else if (opcion == 2 && select == true)
             {
+                // Realizar una esquiva
                 Console.WriteLine($"Te estás preparando para esquivar el ataque de {enemigo.nombre}");
                 Console.ReadLine();
-                if (rand.Next(6)==1)
+                if (rand.Next(6) == 1)
                 {
                     Console.WriteLine("Te han acertado el ataque");
                     Console.ReadLine();
@@ -224,7 +230,7 @@ internal class Program
     }
 }
 
-
+// Clase que representa a un pequeño monstruo
 class SmallMonster
 {
     public string nombre = "muppy";
@@ -238,7 +244,7 @@ class SmallMonster
 
     Random rand = new Random();
 
-    //Constructor
+    // Constructor
     public SmallMonster(string Nombre, int CoordenadaX, int CoordenadaY, int Ataque, int Defensa, int Vida)
     {
         nombre = Nombre;
@@ -250,7 +256,8 @@ class SmallMonster
         listaDeSM.Add(this);
     }
 
-    public int AtaqueGenerico( int defensaEnemigo)
+    // Método que simula un ataque genérico del monstruo
+    public int AtaqueGenerico(int defensaEnemigo)
     {
         int dano = (int)(rand.Next(ataque) * (1 - Convert.ToDouble((defensaEnemigo) / 100.0)));
         Console.WriteLine($"El enemigo {nombre} te ha atacado con {dano} puntos de daño");
@@ -258,11 +265,12 @@ class SmallMonster
         return dano;
     }
 
+    // Método que simula un ataque con posibilidad de defensa
     public int AtaqueDefensa(int defensaEnemigo)
     {
         int dano = (int)(rand.Next(ataque) * (1 - Convert.ToDouble(rand.Next(0, 200) / 100.0)));
         Console.WriteLine($"El enemigo {nombre} te ha atacado con {dano} puntos de daño");
-        
+
         if (dano < 0)
         {
             Console.ReadLine();
@@ -270,11 +278,10 @@ class SmallMonster
         }
         Console.ReadLine();
         return dano;
-
     }
 
-        // Método estático para obtener la lista de todos los Pokemons
-        public static List<SmallMonster> ObtenerTodosLosSM()
+    // Método estático para obtener la lista de todos los SmallMonsters
+    public static List<SmallMonster> ObtenerTodosLosSM()
     {
         return listaDeSM;
     }
