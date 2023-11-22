@@ -23,7 +23,7 @@
 
 ## Notas
 
-- La vida del jugador se inicia en 100.
+- La vida del jugador se inicia en 50.
 - Los monstruos aparecen aleatoriamente en la pantalla.
 - Se pueden encontrar varios tipos de monstruos: Mongo, Nono, Rana, Michelle, Murciegata y Cheto.
 
