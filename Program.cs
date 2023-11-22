@@ -104,6 +104,7 @@ internal class Program
             // Mostrar opciones de combate y la representación gráfica del jugador
             Console.Clear();
             select = false;
+            Console.WriteLine($"Tu vida: {mainVida} | Vida del enemigo {enemigo.nombre}: {vidaTemp}\n");
             Console.WriteLine("Selecciona Una Opción: ");
 
             switch (opcion)

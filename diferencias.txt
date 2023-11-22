@@ -1,0 +1,12 @@
+diff --git a/Program.cs b/Program.cs
+index 3073d8e..0b39254 100644
+--- a/Program.cs
++++ b/Program.cs
+@@ -104,6 +104,7 @@ internal class Program
+             // Mostrar opciones de combate y la representación gráfica del jugador
+             Console.Clear();
+             select = false;
++            Console.WriteLine($"Tu vida: {mainVida} | Vida del enemigo {enemigo.nombre}: {vidaTemp}\n");
+             Console.WriteLine("Selecciona Una Opción: ");
+ 
+             switch (opcion)
