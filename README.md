@@ -28,3 +28,6 @@
 - Se pueden encontrar varios tipos de monstruos: Mongo, Nono, Rana, Michelle, Murciegata y Cheto.
 
 ¡Diviértete explorando y enfrentándote a los Small Monsters! 🎮
+
+## Enlace a Itch.io para descarga del ejecutable
+https://akthanongames.itch.io/small-monsters
