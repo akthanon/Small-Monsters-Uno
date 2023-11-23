@@ -28,7 +28,7 @@
 - Se pueden encontrar varios tipos de monstruos: Mongo, Nono, Rana, Michelle, Murciegata y Cheto.
 
 ## Requerimientos
--Tener instalado el framework .NET 6.0
+- Tener instalado el framework .NET 6.0
 
 ¡Diviértete explorando y enfrentándote a los Small Monsters! 🎮
 
